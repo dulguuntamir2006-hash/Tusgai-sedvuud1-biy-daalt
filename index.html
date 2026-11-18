@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <title>WebGPU vs WebGL Benchmark - Сэдэв 4</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #121212; color: white; text-align: center; margin: 20px; }
+        .controls { margin-bottom: 20px; background: #1e1e1e; padding: 15px; border-radius: 8px; display: inline-block; }
+        .container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .box { background: #1e1e1e; padding: 15px; border-radius: 8px; border: 1px solid #333; }
+        canvas { background: #000; border: 1px solid #444; display: block; margin-top: 10px; }
+        .stats { font-size: 18px; font-weight: bold; color: #4caf50; margin-top: 5px; }
+        select, button { padding: 8px 12px; font-size: 16px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h2>WebGPU болон WebGL Гүйцэтгэлийн Харьцуулалт</h2>
+
+    <div class="controls">
+        <label for="countSelect">Зурах дүрсийн тоо (Гурвалжин): </label>
+        <select id="countSelect">
+            <option value="1000">1,000</option>
+            <option value="10000" selected>10,000</option>
+            <option value="50000">50,000</option>
+            <option value="100000">100,000</option>
+            <option value="500000">500,000</option>
+            <option value="1000000">1,000,000</option>
+        </select>
+
+        <label for="modeSelect"> Горим: </label>
+        <select id="modeSelect">
+            <option value="instanced">Instanced (1 draw call)</option>
+            <option value="individual">Тус тусдаа draw call</option>
+        </select>
+
+        <button onclick="restartTest()">Дахин эхлүүлэх</button>
+    </div>
+
+    <div class="container">
+        <div class="box">
+            <h3>WebGL 2.0</h3>
+            <div id="webglStats" class="stats">FPS: 0 | 0.0 ms</div>
+            <canvas id="webglCanvas" width="450" height="450"></canvas>
+        </div>
+
+        <div class="box">
+            <h3>WebGPU</h3>
+            <div id="webgpuStats" class="stats">FPS: 0 | 0.0 ms</div>
+            <canvas id="webgpuCanvas" width="450" height="450"></canvas>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
