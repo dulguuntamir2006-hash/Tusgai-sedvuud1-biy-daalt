@@ -1,9 +1,9 @@
-let session = 0;          // хуучин давталтыг зогсоох токен
+let session = 0;
 let gpuDevice = null;
 
 function freshCanvas(id) {
     const old = document.getElementById(id);
-    const c = old.cloneNode(false);   // шинэ canvas = шинэ context
+    const c = old.cloneNode(false);
     old.replaceWith(c);
     return c;
 }
@@ -32,12 +32,12 @@ function restartTest() {
     if (gpuDevice) { gpuDevice.destroy(); gpuDevice = null; }
     const count = parseInt(document.getElementById("countSelect").value);
     const mode = document.getElementById("modeSelect").value;
-    const offsets = makeOffsets(count);      // хоёуланд ижил өгөгдөл
+    const offsets = makeOffsets(count);
     runWebGL(session, count, mode, offsets);
     runWebGPU(session, count, mode, offsets);
 }
 
-// ================= 1. WEBGL 2.0 =================
+//1. WEBGL 2.0
 function runWebGL(id, count, mode, offsets) {
     const canvas = freshCanvas("webglCanvas");
     const statsEl = document.getElementById("webglStats");
@@ -97,13 +97,12 @@ function runWebGL(id, count, mode, offsets) {
             gl.vertexAttribPointer(offsetLoc, 2, gl.FLOAT, false, 0, 0);
             gl.vertexAttribDivisor(offsetLoc, 1);
         }
-        // "individual" горимд offset-ийг draw бүрт vertexAttrib2f-ээр өгнө
-
+        
         gl.useProgram(program);
         const tick = makeStats(statsEl);
 
         function render(now) {
-            if (id !== session) return;      // хуучин давталт зогсоно
+            if (id !== session) return;
             const t0 = performance.now();
 
             gl.clearColor(0, 0, 0, 1);
@@ -129,7 +128,7 @@ function runWebGL(id, count, mode, offsets) {
     }
 }
 
-// ================= 2. WEBGPU =================
+//2. web GPU
 async function runWebGPU(id, count, mode, offsets) {
     const canvas = freshCanvas("webgpuCanvas");
     const statsEl = document.getElementById("webgpuStats");
@@ -217,7 +216,7 @@ async function runWebGPU(id, count, mode, offsets) {
             if (mode === "instanced") {
                 pass.draw(3, count, 0, 0);
             } else {
-                for (let i = 0; i < count; i++) pass.draw(3, 1, 0, i);  // firstInstance = i
+                for (let i = 0; i < count; i++) pass.draw(3, 1, 0, i);
             }
             pass.end();
             device.queue.submit([encoder.finish()]);
